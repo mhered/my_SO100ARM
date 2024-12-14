@@ -1,0 +1,29 @@
+rest:
+[ID:001] Position: 2100, Speed: 0
+[ID:002] Position: 2080, Speed: 0
+[ID:003] Position: 2850, Speed: 0
+[ID:004] Position: 2950, Speed: 0
+[ID:005] Position: 900, Speed: 0
+[ID:006] Position: 2047r, Speed: 0
+stretched:
+[ID:001] Position: 1998, Speed: 0
+[ID:002] Position: 1999, Speed: 0
+[ID:003] Position: 2070, Speed: 0
+[ID:004] Position: 1026, Speed: 0
+[ID:005] Position: 3071, Speed: 0
+[ID:006] Position: 2050, Speed: 0
+neutral:
+[ID:001] Position: 2048, Speed: 0
+[ID:002] Position: 2048, Speed: 0
+[ID:003] Position: 2048, Speed: 0
+[ID:004] Position: 2048, Speed: 0
+[ID:005] Position: 2048, Speed: 0
+[ID:006] Position: 2048, Speed: 0
+cool:
+[ID:001] Position: 2896, Speed: 0
+[ID:002] Position: 1116, Speed: 0
+[ID:003] Position: 2544, Speed: 0
+[ID:004] Position: 2115, Speed: 0
+[ID:005] Position: 1673, Speed: 0
+[ID:006] Position: 2478, Speed: 0
+
