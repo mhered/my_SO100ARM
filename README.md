@@ -28,7 +28,7 @@
 * Documentation is in Chinese except this [start tutorial](https://www.feetechrc.com/Data/feetechrc/upload/file/20201127/start%20%20tutorial201015.pdf) (saved a local copy [here](./assets/start  tutorial201015.pdf))
 * I translated the FE-URT-1 User Manual to English, see [here](FE-URT-1 User Manual Translated.md). 
 * Also check out this [spec sheet](./assets/Specs_ST3215_12V_30kg.jpg) and [demo video of the servos and the debugging GUI](./assets/Video_ST3215_12V_30kg.mp4) I found in [Aliexpress](https://es.aliexpress.com/item/1005007708969582.html?gatewayAdapt=glo2esp)
-* Customer Service chat linked to [resources](./Feetech_resources.md) after purchasing the kit from Alibaba
+* Customer Service chat linked to [resources](./BOM/STS3215_servo.md) after purchasing the kit from Alibaba
 
 # Assembly of the Follower Arm
 
@@ -38,9 +38,9 @@ The repo includes a STEP file of the current version [here](https://github.com/T
 
 ![](./assets/follower_arm.png)
 
-The assembly uses exclusively the screws provided with the servos (each servo comes with 9x metal screws + 8x self-tapping screws + 1x flanged self-tapping screw)
+Each servo comes with 9x metal screws + 8x self-tapping screws + 1x flanged self-tapping screw. The assembly uses exclusively the screws provided with the servos.
 
-1. On all servos, install the drive wheel (the one with grooves) on the drive axle, trying to align the four holes with the sides of the servo. Secure it in place using one metal screw though the centre. 
+1. On all servos, install the drive wheel (the one with grooves) on the drive axle, trying to align the four holes with the sides of the servo. Secure it in place using one metal screw through the centre. 
 
 2. On all servos (except **Servo_#2**) insert the free wheel (the one without grooves) in the free axle, but do not install the flanged self-tapping screw provided to fix it, as it impairs rotation
 3. Insert **Servo_#6** into the **Base** (green) with the drive axle pointing upwards. Route the cable going to the board downwards through the hole in the **Base**.
@@ -100,16 +100,30 @@ Then activate it manually only when needed...
 
 **Note:** during the process, I conda installed ffmpeg, removed opencv and reinstalled it with conda
 
-### Configure the motors (with the waveshare board)
+### Configuring the motors (with the waveshare board)
 
 Check out this new video that describes motor configuration: https://www.youtube.com/watch?v=FioA2oeFZ5I 
 
 Actually describes the full process, even has an animation of the assembly process for the current version (8k), I wish I had seen it earlier! 
 
-Note: need to remove gears from the servos of the leader arm! (why buy the 30kg servos then?) 
+Starting lerobot:
 
 ```bash
-python lerobot/scripts/configure_motor.py \
+$ cd ~/lerobot
+$ unset PYTHONPATH
+$ conda activate lerobot
+```
+
+Detect the port:
+
+```bash
+(lerobot)$ python lerobot/scripts/find_motors_bus_port.py
+```
+
+Rename the servos:
+
+```bash
+(lerobot)$ python lerobot/scripts/configure_motor.py \
   --port /dev/ttyACM0 \
   --brand feetech \
   --model sts3215 \
@@ -117,7 +131,9 @@ python lerobot/scripts/configure_motor.py \
   --ID 1
 ```
 
-This script does not work on the assembled robot because it renames motors one by one...
+Note: This script does not work on the assembled robot because it renames motors one by one...
+
+Note: need to remove gears from the servos of the leader arm! (why buy the 30kg servos then?) 
 
 The calibration script mentioned in the video does not exist...
 
