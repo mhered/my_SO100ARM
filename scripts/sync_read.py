@@ -31,7 +31,7 @@ from STservo_sdk import *                       # Uses STServo SDK library
 
 # Default setting
 BAUDRATE                    = 1000000           # SCServo default baudrate : 1000000
-DEVICENAME                  = 'COM11'    # Check which port is being used on your controller
+DEVICENAME                  = '/dev/ttyACM0'    # Check which port is being used on your controller
                                                 # ex) Windows: "COM1"   Linux: "/dev/ttyUSB0" Mac: "/dev/tty.usbserial-*"
 
 # Initialize PortHandler instance
@@ -69,7 +69,7 @@ while 1:
     if getch() == chr(0x1b):
         break
 
-    for sts_id in range(1, 11):
+    for sts_id in range(1, 7):
         # Add parameter storage for STServo#1~10 present position value
         sts_addparam_result = groupSyncRead.addParam(sts_id)
         if sts_addparam_result != True:
@@ -79,7 +79,7 @@ while 1:
     if sts_comm_result != COMM_SUCCESS:
         print("%s" % packetHandler.getTxRxResult(sts_comm_result))
 
-    for sts_id in range(1, 11):
+    for sts_id in range(1, 7):
         # Check if groupsyncread data of STServo#1~10 is available
         sts_data_result, sts_error = groupSyncRead.isAvailable(scs_id, STS_PRESENT_POSITION_L, 4)
         if sts_data_result == True:
