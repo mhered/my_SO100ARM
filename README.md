@@ -23,8 +23,8 @@
 
 ## Sources
 
+* The twitter thread that started it all: https://x.com/RemiCadene/status/1825455895561859185
 * This Youtube video [Standard Open ARM 100 5DOF Servos - Low cost DIY 3dprinted robot arm for Le Robot by Hugging Face](https://www.youtube.com/watch?v=fy6Jqq_QaGo) describes the connection and renaming steps, but skips the installation of the software, and is for the 6V version not the 12V one.
-
 * Documentation is in Chinese except this [start tutorial](https://www.feetechrc.com/Data/feetechrc/upload/file/20201127/start%20%20tutorial201015.pdf) (saved a local copy [here](./assets/start  tutorial201015.pdf))
 * I translated the FE-URT-1 User Manual to English, see [here](FE-URT-1 User Manual Translated.md). 
 * Also check out this [spec sheet](./assets/Specs_ST3215_12V_30kg.jpg) and [demo video of the servos and the debugging GUI](./assets/Video_ST3215_12V_30kg.mp4) I found in [Aliexpress](https://es.aliexpress.com/item/1005007708969582.html?gatewayAdapt=glo2esp)

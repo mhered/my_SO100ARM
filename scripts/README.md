@@ -2,6 +2,8 @@
 
 Based on `STservo_sdk` library: https://files.waveshare.com/wiki/Bus-Servo-Adapter-(A)/STServo_Python.zip - a copy saved locally [here](./STServo_Python.zip)
 
+See: https://www.waveshare.com/product/bus-servo-adapter-a.htm
+
 ## Changelog 
 
 * New `crude_ping.py` - a simple ping written with help of ChatGPT
@@ -42,4 +44,3 @@ Based on `STservo_sdk` library: https://files.waveshare.com/wiki/Bus-Servo-Adapt
   -  new method `read_current_arm_position()` - encapsulates reading all servos of the arm, with verbose parameter, stores current position in `self.current_arm_position`
   -  new method `write_arm_position()` - encapsulates writing positions to all servos of the arm, ensuring all servos are synchronized and maximum speed is below `max_speed`
   -  new methods `sync_read_arm_position()` and `sync_write_arm_position()`, commented out until I figure out what is wrong with sync r/w operations 
-
