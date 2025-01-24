@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="my_arm">
+
+    <link name="world" />
+
+    <link name="base_link">
+        <visual>
+            <origin xyz="-0.0452 0 0" rpy="0 0 ${pi/2}" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Base.STL" />
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="world_to_base" type="fixed">
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <parent link="world" />
+        <child link="base_link" />
+    </joint>
+
+    <link name="shoulder_link">
+        <visual>
+            <origin xyz="0 0 0.0165" rpy="${pi/2} 0 ${pi/2}" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Rotation_Pitch.STL" />
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="base_to_shoulder" type="rotation">
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 ${0}" />
+        <parent link="base_link" />
+        <child link="shoulder_link" />
+    </joint>
+
+    <link name="upper_arm_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 ${pi/2}" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Upper_Arm.STL" />
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="shoulder_to_upper_arm" type="rotation">
+        <origin xyz="0.0306 0.0 0.1190 " rpy="0 0 0" />
+        <parent link="shoulder_link" />
+        <child link="upper_arm_link" />
+    </joint>
+
+</robot>
