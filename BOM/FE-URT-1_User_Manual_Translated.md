@@ -66,7 +66,7 @@ The power port has an overcurrent limit of 6A. If additional servos are needed i
 
 ### 4. **Mainboard Ports**
 
-![](./assets/board.jpg)
+![](./assets/FE-URT-1_board.jpg)
 
 ------
 
@@ -87,7 +87,7 @@ The power port has an overcurrent limit of 6A. If additional servos are needed i
 
 Once installed, or if the driver was previously installed, connecting the URT-1 to a PC's USB port will display the corresponding port number in the Device Manager.
 
-![](./assets/driver.jpg)
+![](./assets/FE-URT-1_driver.jpg)
 
 ------
 
@@ -97,7 +97,7 @@ Once installed, or if the driver was previously installed, connecting the URT-1 
 2. Ensure the power supply is correctly connected to the servo power port. Be careful not to reverse the polarity.
 3. Use a Mini USB cable to connect the URT-1 to a PC.
 
-![](./assets/connection.jpg)
+![](./assets/FE-URT-1_connection.jpg)
 
 ------
 
