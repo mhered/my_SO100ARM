@@ -1,2 +1,5 @@
 .vscode
 log/
+secrets.txt
+raw_videos
+__pycache__
