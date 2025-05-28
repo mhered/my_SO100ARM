@@ -15,8 +15,8 @@
   - [x] Fix it, it is not working yet 
   - [x] move it to `src`, 
   - [x] symlink it to `dev_ws` workspace, 
-  - [ ] move notes here
-  - [ ] commit
+  - [x] move notes here
+  - [x] commit
 
 ## Sources
 
