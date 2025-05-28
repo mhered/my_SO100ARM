@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<sdf version="1.5">
+  <model name='duckie'>
+    <static>false</static>
+    <self_collide>false</self_collide>
+
+    <link name='link'>
+
+      <visual name='visual'>
+        <geometry>
+          <mesh>
+            <uri>meshes/duckie.dae</uri>
+            <scale>.5 .5 .5 </scale>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name='collision'>
+        <geometry>
+          <mesh>
+            <uri>meshes/duckie_collision.obj</uri>
+            <scale>.5 .5 .5 </scale>
+          </mesh>
+        </geometry>
+      </collision>
+
+      <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+
+      <!--inertia
+      as thin-walled cylinder w=10g, D=50mm, h=40mm-->
+      <inertial>
+        <mass>0.01</mass>
+        <inertia>
+          <ixx>3.0e-6</ixx>
+          <iyy>3.0e-6</iyy>
+          <izz>6.0e-6</izz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+        </inertia>
+      </inertial>
+
+
+      <enable_wind>false</enable_wind>
+
+    </link>
+
+  </model>
+</sdf>
