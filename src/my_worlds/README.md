@@ -223,3 +223,32 @@ Source (diagram): https://piwars.org/2024-disaster-zone/challenges/eco-disaster/
 
 ![](./assets/eco_disaster_arena.gif)
 
+## paths and environment variables nightmare
+
+Conclusion: setting `GZ_SIM_RESOURCE_PATH` was not working because I was using `gz_sim.launch.py` to call Gazebo and this seems to mess up with environments (at least it has some facilities to pass them as arguments)
+
+Use instead 
+
+```python
+    gazebo_sim = ExecuteProcess(
+        cmd=["gz", "sim", "-r", world_uri],
+        additional_env={"GZ_SIM_RESOURCE_PATH": os.environ["GZ_SIM_RESOURCE_PATH"]},
+        output="screen",
+    )
+```
+
+which allows passing additional environment
+
+Also, set `GZ_SIM_RESOURCE_PATH`  = `world share : dirname(robot share) `meaning:
+
+* the share directory of the `my_worlds` package - this allows referring to models as ` <uri>model://models/duckie</uri>` from the sdf world
+* the parent folder of the share directory of the robot package - this allows meshes to be referred to as `<mesh filename="package://my_arm_description/meshes/Base.STL" />`  from the xacro file 
+
+After this we can succesfully spawn the robot inside a custom world, see launch file: [./../my_arm_description/launch/my_arm.launch.py](./../my_arm_description/launch/my_arm.launch.py)
+
+![](./assets/success.gif)
+
+## To do
+
+- [ ] configure ros2_control
+- [ ] improve appearance of SOARM100

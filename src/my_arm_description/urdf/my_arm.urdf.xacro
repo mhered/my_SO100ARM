@@ -11,6 +11,19 @@
                 <mesh filename="package://my_arm_description/meshes/Base.STL" />
             </geometry>
         </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Base.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                iyy="0.001" iyz="0.0"
+                izz="0.001" />
+        </inertial>
     </link>
 
     <joint name="world_to_base_joint" type="fixed">
@@ -26,6 +39,19 @@
                 <mesh filename="package://my_arm_description/meshes/Rotation_Pitch.STL" />
             </geometry>
         </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Rotation_Pitch.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                iyy="0.001" iyz="0.0"
+                izz="0.001" />
+        </inertial>
     </link>
 
     <joint name="base_to_shoulder_joint" type="revolute">
@@ -33,7 +59,7 @@
         <parent link="base_link" />
         <child link="shoulder_link" />
         <axis xyz="0 0 1" />
-        <limit upper="${pi/2}" lower="-${pi/2}" effort="1.0" velocity="1.0" />
+        <limit upper="${2*pi/3}" lower="-${2*pi/3}" effort="1.0" velocity="1.0" />
     </joint>
 
     <link name="upper_arm_link">
@@ -43,6 +69,19 @@
                 <mesh filename="package://my_arm_description/meshes/Upper_Arm.STL" />
             </geometry>
         </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 ${pi/2} 0" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Upper_Arm.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                iyy="0.001" iyz="0.0"
+                izz="0.001" />
+        </inertial>
     </link>
 
     <joint name="shoulder_to_upper_arm_joint" type="revolute">
@@ -50,7 +89,7 @@
         <parent link="shoulder_link" />
         <child link="upper_arm_link" />
         <axis xyz="0 0 1" />
-        <limit upper="${pi/2}" lower="-${pi/2}" effort="1.0" velocity="1.0" />
+        <limit upper="${2*pi/3}" lower="-${2*pi/3}" effort="1.0" velocity="1.0" />
     </joint>
 
     <link name="lower_arm_link">
@@ -60,6 +99,19 @@
                 <mesh filename="package://my_arm_description/meshes/Lower_Arm.STL" />
             </geometry>
         </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 ${pi/2} 0" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Lower_Arm.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                iyy="0.001" iyz="0.0"
+                izz="0.001" />
+        </inertial>
     </link>
 
     <joint name="upper_arm_to_lower_arm_joint" type="revolute">
@@ -77,6 +129,19 @@
                 <mesh filename="package://my_arm_description/meshes/Wrist_Pitch_Roll.STL" />
             </geometry>
         </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="-${pi/2} ${pi/2} 0" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Wrist_Pitch_Roll.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                iyy="0.001" iyz="0.0"
+                izz="0.001" />
+        </inertial>
     </link>
 
     <joint name="lower_arm_to_wrist_joint" type="revolute">
@@ -84,7 +149,7 @@
         <parent link="lower_arm_link" />
         <child link="wrist_link" />
         <axis xyz="0 0 1" />
-        <limit upper="${pi/2}" lower="-${pi/2}" effort="1.0" velocity="1.0" />
+        <limit upper="${2*pi/3}" lower="-${2*pi/3}" effort="1.0" velocity="1.0" />
     </joint>
 
     <link name="fixed_jaw_link">
@@ -94,6 +159,19 @@
                 <mesh filename="package://my_arm_description/meshes/Fixed_Jaw.STL" />
             </geometry>
         </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="-${pi/2} 0 -${pi/2}" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Fixed_Jaw.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                iyy="0.001" iyz="0.0"
+                izz="0.001" />
+        </inertial>
     </link>
 
     <joint name="wrist_to_fixed_jaw_joint" type="revolute">
@@ -101,8 +179,8 @@
         <parent link="wrist_link" />
         <child link="fixed_jaw_link" />
         <axis xyz="0 0 1" />
-        <limit upper="${pi}" lower="-${pi}" effort="1.0" velocity="1.0" />
- 
+        <limit upper="${7*pi/6}" lower="-${7*pi/6}" effort="1.0" velocity="1.0" />
+
     </joint>
 
     <link name="moving_jaw_link">
@@ -112,6 +190,19 @@
                 <mesh filename="package://my_arm_description/meshes/Moving_Jaw.STL" />
             </geometry>
         </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Moving_Jaw.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                iyy="0.001" iyz="0.0"
+                izz="0.001" />
+        </inertial>
     </link>
 
     <joint name="fixed_to_moving_jaw_joint" type="revolute">
@@ -119,7 +210,7 @@
         <parent link="fixed_jaw_link" />
         <child link="moving_jaw_link" />
         <axis xyz="0 0 1" />
-        <limit upper="${pi/2}" lower="-${pi/2}" effort="1.0" velocity="1.0" />
-        
+        <limit upper="${2*pi/3}" lower="-${pi/6}" effort="1.0" velocity="1.0" />
+
     </joint>
 </robot>

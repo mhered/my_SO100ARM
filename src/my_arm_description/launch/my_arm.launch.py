@@ -1,0 +1,122 @@
+from launch import LaunchDescription
+from launch.actions import IncludeLaunchDescription, SetEnvironmentVariable
+
+from launch_param_builder import load_xacro
+import xacro
+from launch_ros.actions import Node
+from ament_index_python.packages import get_package_share_directory
+from os.path import join, dirname
+from pathlib import Path
+import os
+from launch.actions import ExecuteProcess
+
+
+def generate_launch_description():
+
+    # Set up Gazebo resource path
+
+    # This is the package where world models are stored.
+    world_package_name = "my_worlds"
+    world_file = "duckieworld.sdf"
+    # world_file = "eco_disaster_config1.sdf"
+
+    world_share_path = get_package_share_directory(world_package_name)
+
+    # This is the package where robot is stored.
+    robot_package_name = "my_arm_description"
+    robot_share_path = get_package_share_directory(robot_package_name)
+
+    resources_path = f'{os.environ.get("GZ_SIM_RESOURCE_PATH", "")}:{world_share_path}:{dirname(robot_share_path)}'
+
+    set_gz_resources_path = SetEnvironmentVariable(
+        name="GZ_SIM_RESOURCE_PATH",
+        value = resources_path,
+        # value="/home/mhered/dev_ws/src/my_worlds:/home/mhered/dev_ws/src/my_arm_description/..", #absolute paths, not even share folder
+    )
+
+    # Start a simulation with the chosen world
+    world_uri = join(world_share_path, "worlds", world_file)
+ 
+    gazebo_sim = ExecuteProcess(
+        cmd=["gz", "sim", "-r", world_uri],
+        additional_env={"GZ_SIM_RESOURCE_PATH": os.environ["GZ_SIM_RESOURCE_PATH"]},
+        output="screen",
+    )
+
+    '''
+    gazebo_launch_path = join(
+        get_package_share_directory("ros_gz_sim"), "launch", "gz_sim.launch.py"
+    )
+    gazebo_sim = IncludeLaunchDescription(
+        gazebo_launch_path, launch_arguments=[("gz_args", "-r " + world_uri)]
+    )
+    '''
+
+    # Create a robot in the world.
+    # Steps:
+    # 1. Process a file using the xacro tool to get an xml file containing the robot description.
+    # 2. Publish this robot description using a ros topic so all nodes can know about the joints of the robot.
+    # 3. Spawn a simulated robot in the gazebo simulation using the published robot description topic.
+
+    # Step 1. Process robot file.
+    robot_file = join(robot_share_path, "urdf", "my_arm.urdf.xacro")
+    robot_xml = load_xacro(Path(robot_file))
+
+    # robot_xml = xacro.process_file(str(robot_file)).toxml()
+
+    # Step 2. Publish robot file to ros topic /robot_description & static joint positions to /tf
+    robot_state_publisher = Node(
+        package="robot_state_publisher",
+        executable="robot_state_publisher",
+        name="robot_state_publisher",
+        output="both",
+        parameters=[{"robot_description": robot_xml, "use_sim_time": True}],
+    )
+
+    # Step 3. Spawn a robot in gazebo by listening to the published topic.
+    robot = Node(
+        package="ros_gz_sim",
+        executable="create",
+        arguments=[
+            "-topic",
+            "/robot_description",
+            "-z",
+            "0.5",
+            "--ros-args",
+            "--log-level",
+            "debug",
+        ],
+        name="spawn_robot",
+        output="both",
+    )
+
+    # Gazebo Bridge: This brings data (sensors/clock) out of gazebo into ROS.
+    bridge = Node(
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        arguments=[
+            "/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock",
+            # '/lidar@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan',
+            # '/lidar/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
+            # '/realsense/image@sensor_msgs/msg/Image[gz.msgs.Image',
+            # '/realsense/depth_image@sensor_msgs/msg/Image[gz.msgs.Image',
+            # '/realsense/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
+        ],
+        output="screen",
+    )
+
+   
+    return LaunchDescription(
+        [
+            set_gz_resources_path,
+            # set_sdf_path,
+            gazebo_sim,
+            robot_state_publisher,
+            bridge,
+            robot,
+            # twist_stamper,
+            # robot_steering,
+            # start_controllers,
+            # static_pub,
+        ]
+    )
