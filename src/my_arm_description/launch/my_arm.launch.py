@@ -28,29 +28,14 @@ def generate_launch_description():
 
     resources_path = f'{os.environ.get("GZ_SIM_RESOURCE_PATH", "")}:{world_share_path}:{dirname(robot_share_path)}'
 
-    set_gz_resources_path = SetEnvironmentVariable(
-        name="GZ_SIM_RESOURCE_PATH",
-        value = resources_path,
-        # value="/home/mhered/dev_ws/src/my_worlds:/home/mhered/dev_ws/src/my_arm_description/..", #absolute paths, not even share folder
-    )
-
     # Start a simulation with the chosen world
     world_uri = join(world_share_path, "worlds", world_file)
  
     gazebo_sim = ExecuteProcess(
         cmd=["gz", "sim", "-r", world_uri],
-        additional_env={"GZ_SIM_RESOURCE_PATH": os.environ["GZ_SIM_RESOURCE_PATH"]},
+        additional_env={"GZ_SIM_RESOURCE_PATH": resources_path},
         output="screen",
     )
-
-    '''
-    gazebo_launch_path = join(
-        get_package_share_directory("ros_gz_sim"), "launch", "gz_sim.launch.py"
-    )
-    gazebo_sim = IncludeLaunchDescription(
-        gazebo_launch_path, launch_arguments=[("gz_args", "-r " + world_uri)]
-    )
-    '''
 
     # Create a robot in the world.
     # Steps:
@@ -108,8 +93,6 @@ def generate_launch_description():
    
     return LaunchDescription(
         [
-            set_gz_resources_path,
-            # set_sdf_path,
             gazebo_sim,
             robot_state_publisher,
             bridge,
