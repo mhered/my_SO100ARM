@@ -92,6 +92,19 @@ def generate_launch_description():
         output="screen",
     )
 
+    # Step 5: Enable the ros2 controllers
+    start_controllers = TimerAction(
+        period=10.0,
+        actions=[
+            Node(
+                package="controller_manager",
+                executable="spawner",
+                arguments=["joint_state_broadcaster", "joint_trajectory_controller"],
+                output="screen",
+            )
+        ],
+    )
+
     # Joint State Publisher GUI
     joint_state_publisher_gui = Node(
         package="joint_state_publisher_gui",
@@ -123,5 +136,6 @@ def generate_launch_description():
             robot,
             joint_state_publisher_gui,
             rviz_node,
+            start_controllers,
         ]
     )

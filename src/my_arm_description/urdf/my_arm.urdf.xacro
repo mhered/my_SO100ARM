@@ -228,4 +228,40 @@
 
     </joint>
 
+    <!-- ros2_control -->
+
+    <xacro:macro name="ros2_position_controller" params="joint_name">
+        <joint name="${joint_name}">
+            <command_interface name="position" />
+            <state_interface name="position">
+                <param name="initial_value">0.0</param>
+            </state_interface>
+            <state_interface name="velocity" />
+        </joint>
+    </xacro:macro>
+
+    <ros2_control name="my_arm" type="system">
+        <hardware>
+            <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+        </hardware>
+
+        <xacro:ros2_position_controller joint_name="base_to_shoulder_joint" />
+        <xacro:ros2_position_controller joint_name="shoulder_to_upper_arm_joint" />
+        <xacro:ros2_position_controller joint_name="upper_arm_to_lower_arm_joint" />
+        <xacro:ros2_position_controller joint_name="lower_arm_to_wrist_joint" />
+        <xacro:ros2_position_controller joint_name="wrist_to_fixed_jaw_joint" />
+        <xacro:ros2_position_controller joint_name="fixed_to_moving_jaw_joint" />
+
+    </ros2_control>
+
+    <gazebo>
+        <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+            <parameters>$(find my_arm_description)/config/ros2_controllers.yaml</parameters>
+
+        </plugin>
+        <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+            <render_engine>ogre2</render_engine>
+        </plugin>
+    </gazebo>
+
 </robot>
