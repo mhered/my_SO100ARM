@@ -10,6 +10,8 @@ from pathlib import Path
 import os
 from launch.actions import ExecuteProcess
 
+from launch.actions import TimerAction
+
 
 def generate_launch_description():
 
@@ -30,7 +32,7 @@ def generate_launch_description():
 
     # Start a simulation with the chosen world
     world_uri = join(world_share_path, "worlds", world_file)
- 
+
     gazebo_sim = ExecuteProcess(
         cmd=["gz", "sim", "-r", world_uri],
         additional_env={"GZ_SIM_RESOURCE_PATH": resources_path},
@@ -90,16 +92,36 @@ def generate_launch_description():
         output="screen",
     )
 
-   
+    # Joint State Publisher GUI
+    joint_state_publisher_gui = Node(
+        package="joint_state_publisher_gui",
+        executable="joint_state_publisher_gui",
+        name="joint_state_publisher_gui",
+        output="screen",
+        parameters=[{"use_sim_time": True}],
+    )
+
+    # Launch RViz
+    rviz_config = join(
+        robot_share_path, "config", "my_arm.rviz"
+    )  # Adjust if you have a config file
+    
+    rviz_node = Node(
+        package="rviz2",
+        executable="rviz2",
+        name="rviz2",
+        output="screen",
+        arguments=["-d", rviz_config],
+        parameters=[{"use_sim_time": True}],
+    )
+
     return LaunchDescription(
         [
             gazebo_sim,
             robot_state_publisher,
             bridge,
             robot,
-            # twist_stamper,
-            # robot_steering,
-            # start_controllers,
-            # static_pub,
+            joint_state_publisher_gui,
+            rviz_node,
         ]
     )
