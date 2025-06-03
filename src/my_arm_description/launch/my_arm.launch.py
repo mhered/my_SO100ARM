@@ -97,12 +97,12 @@ def generate_launch_description():
 
     # Step 5: Enable the ros2 controllers
     start_controllers = TimerAction(
-        period=10.0,
+        period=5.0,
         actions=[
             Node(
                 package="controller_manager",
                 executable="spawner",
-                arguments=["joint_state_broadcaster", "joint_trajectory_controller"],
+                arguments=["joint_state_broadcaster", "soarm100_controller"],
                 output="screen",
             )
         ],
