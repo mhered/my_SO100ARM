@@ -35,7 +35,10 @@ def generate_launch_description():
 
     gazebo_sim = ExecuteProcess(
         cmd=["gz", "sim", "-r", world_uri],
-        additional_env={"GZ_SIM_RESOURCE_PATH": resources_path},
+        additional_env={
+            "GZ_SIM_RESOURCE_PATH": resources_path,
+            "GZ_SIM_SYSTEM_PLUGIN_PATH":f'{os.environ.get("LD_LIBRARY_PATH", "")}',
+            },
         output="screen",
     )
 
