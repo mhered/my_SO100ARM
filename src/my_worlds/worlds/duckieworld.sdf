@@ -72,19 +72,19 @@
     <include>
       <uri>model://models/barrel_green</uri>
       <name>barrel</name>
-      <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+      <pose>0.3 0.45 0.41 0.0 0.0 0.0</pose>
     </include>
 
     <include>
       <uri>model://models/duckie</uri>
       <name>duckie</name>
-      <pose>0.0 0.0 0.12 1.58505 0.0 -1.95471</pose>
+      <pose>0.3 0.45 0.54 1.58505 0.0 1.95471</pose>
     </include>
 
     <include>
       <uri>model://models/greentable</uri>
       <name>gt</name>
-      <pose>-1.63042 -0.13726 -0.00000 0.00000 0.00000 -0.50502</pose>
+      <pose>0.2 0.5 0.00000 0.00000 0.00000 1.5707963267948966</pose>
     </include>
 
     <include>

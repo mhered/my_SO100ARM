@@ -37,8 +37,8 @@ def generate_launch_description():
         cmd=["gz", "sim", "-r", world_uri],
         additional_env={
             "GZ_SIM_RESOURCE_PATH": resources_path,
-            "GZ_SIM_SYSTEM_PLUGIN_PATH":f'{os.environ.get("LD_LIBRARY_PATH", "")}',
-            },
+            "GZ_SIM_SYSTEM_PLUGIN_PATH": f'{os.environ.get("LD_LIBRARY_PATH", "")}',
+        },
         output="screen",
     )
 
@@ -70,8 +70,12 @@ def generate_launch_description():
         arguments=[
             "-topic",
             "/robot_description",
+            "-x",
+            "0.2",
+            "-y",
+            "0.8",
             "-z",
-            "0.5",
+            "0.40",
             "--ros-args",
             "--log-level",
             "debug",
@@ -121,7 +125,7 @@ def generate_launch_description():
     rviz_config = join(
         robot_share_path, "config", "my_arm.rviz"
     )  # Adjust if you have a config file
-    
+
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",

@@ -165,3 +165,132 @@ To note:
 * rotation joints are of type`revolute` and require tags `<axis>`and `<limit>` to be set up correctly to be able to move them in URDF viewer. Since I always placed the rotation axis at Z, `<axis xyz="0 0 1" />` works for all, and similarly `<limit upper="${pi/2}" lower="-${pi/2}" effort="1.0" velocity="1.0" />` 
 
 ###### ![](./assets/my_arm_URDF_viewer.gif)
+
+[...]
+
+**Note: Several steps missing, check git log**
+
+[...]
+
+### Approach
+
+```bash
+$ ros2 topic pub /soarm100_controller/joint_trajectory trajectory_msgs/msg/JointTrajectory "header:
+  stamp:
+    sec: 0
+    nanosec: 0
+  frame_id: ''
+joint_names:
+- base_to_shoulder_joint
+- shoulder_to_upper_arm_joint
+- upper_arm_to_lower_arm_joint
+- lower_arm_to_wrist_joint
+- wrist_to_fixed_jaw_joint
+- fixed_to_moving_jaw_joint
+points:
+- positions: [0.25, -0.2, -0.3, 0.1, -1.2, 1]
+  time_from_start:
+    sec: 1
+    nanosec: 0"
+
+```
+
+
+
+### Grab
+
+```bash
+$ ros2 topic pub /soarm100_controller/joint_trajectory trajectory_msgs/msg/JointTrajectory "header:
+  stamp:
+    sec: 0
+    nanosec: 0
+  frame_id: ''
+joint_names:
+- base_to_shoulder_joint
+- shoulder_to_upper_arm_joint
+- upper_arm_to_lower_arm_joint
+- lower_arm_to_wrist_joint
+- wrist_to_fixed_jaw_joint
+- fixed_to_moving_jaw_joint
+points:
+- positions: [0.25, -0.2, -0.3, 0.1, -1.2, -0.1]
+  time_from_start:
+    sec: 1
+    nanosec: 0"
+
+```
+
+
+
+### Lift
+
+```bash
+$ ros2 topic pub /soarm100_controller/joint_trajectory trajectory_msgs/msg/JointTrajectory "header:
+  stamp:
+    sec: 0
+    nanosec: 0
+  frame_id: ''
+joint_names:
+- base_to_shoulder_joint
+- shoulder_to_upper_arm_joint
+- upper_arm_to_lower_arm_joint
+- lower_arm_to_wrist_joint
+- wrist_to_fixed_jaw_joint
+- fixed_to_moving_jaw_joint
+points:
+- positions: [0, 0, 0, 0, 0, -0.3]
+  time_from_start:
+    sec: 1
+    nanosec: 0"
+
+```
+
+
+
+### Drop
+
+```bash
+$ ros2 topic pub /soarm100_controller/joint_trajectory trajectory_msgs/msg/JointTrajectory "header:
+  stamp:
+    sec: 0
+    nanosec: 0
+  frame_id: ''
+joint_names:
+- base_to_shoulder_joint
+- shoulder_to_upper_arm_joint
+- upper_arm_to_lower_arm_joint
+- lower_arm_to_wrist_joint
+- wrist_to_fixed_jaw_joint
+- fixed_to_moving_jaw_joint
+points:
+- positions:  [-0.5, -0.7, -0.5, 1.2, -1.6, -0.2]
+  time_from_start:
+    sec: 1
+    nanosec: 0"
+
+```
+
+
+
+### Rest
+
+```bash
+$ ros2 topic pub /soarm100_controller/joint_trajectory trajectory_msgs/msg/JointTrajectory "header:
+  stamp:
+    sec: 0
+    nanosec: 0
+  frame_id: ''
+joint_names:
+- base_to_shoulder_joint
+- shoulder_to_upper_arm_joint
+- upper_arm_to_lower_arm_joint
+- lower_arm_to_wrist_joint
+- wrist_to_fixed_jaw_joint
+- fixed_to_moving_jaw_joint
+points:
+- positions: [0.0, 1.75, -1.55, -1.2, 0, -0.2]
+  time_from_start:
+    sec: 1
+    nanosec: 0"
+
+```
