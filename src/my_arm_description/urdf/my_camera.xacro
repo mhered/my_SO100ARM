@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<robot name="my_camera"
+    xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:macro name="camera" params="world_link_name *origin">
+        <!-- Define the material once -->
+        <material name="orange">
+            <color rgba="1.0 0.55 0.0 1.0" />
+        </material>
+        <!-- Fixed Camera Link -->
+        <link name="camera_link">
+            <visual>
+                <geometry>
+                    <box size="0.01 0.03 0.03" />
+                </geometry>
+                <material name="orange" />
+            </visual>
+            <visual>
+                <origin xyz="0 0 -0.05" />
+                <geometry>
+                    <cylinder radius="0.002" length="0.1" />
+                </geometry>
+                <material name="orange" />
+            </visual>
+            <inertial>
+                <mass value="0.01" />
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <inertia ixx="1e-6" iyy="1e-6" izz="1e-6" ixy="0.0" ixz="0.0" iyz="0.0" />
+            </inertial>
+        </link>
+
+        <joint name="camera_optical_joint" type="fixed">
+            <parent link="camera_link" />
+            <child link="camera_link_optical" />
+            <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}" />
+        </joint>
+
+        <link name="camera_link_optical"></link>
+
+        <gazebo reference="camera_link">
+            <material>Gazebo/Orange</material>
+
+            <sensor type="camera" name="camera_sensor">
+                <always_on>true</always_on>
+                <update_rate>30.0</update_rate>
+                <visualize>true</visualize>
+                <camera>
+                    <camera_info>camera/camera_info</camera_info>
+                    <horizontal_fov>1.047</horizontal_fov> <!-- ~60 degrees -->
+                    <image>
+                        <width>640</width>
+                        <height>480</height>
+                        <format>R8G8B8</format>
+                    </image>
+                    <clip>
+                        <near>0.1</near>
+                        <far>20.0</far>
+                    </clip>
+                </camera>
+                <topic>camera/image_raw</topic>
+                <gz_frame_id>camera_link_optical</gz_frame_id>
+            </sensor>
+        </gazebo>
+
+
+        <!-- Joint from world to camera_link -->
+        <joint name="camera_to_world_joint" type="fixed">
+            <child link="camera_link" />
+            <parent link="${world_link_name}" />
+            <xacro:insert_block name="origin" />
+        </joint>
+    </xacro:macro>
+
+</robot>
