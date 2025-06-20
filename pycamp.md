@@ -1,3 +1,7 @@
+<div align="left"><picture><img src="./assets/logos_duckie/python_robot_duckie_v2.png" style="zoom:20%;" /></picture></div>
+
+
+
 # Python, un robot y un patito de goma
 
 Log of my first try at training the SOARM100 with lerobot during the project "Python, un robot y un patito de goma" at Pycamp2025
