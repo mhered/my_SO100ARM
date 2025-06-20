@@ -28,7 +28,11 @@ def generate_launch_description():
     robot_package_name = "my_arm_description"
     robot_share_path = get_package_share_directory(robot_package_name)
 
-    resources_path = f'{os.environ.get("GZ_SIM_RESOURCE_PATH", "")}:{world_share_path}:{dirname(robot_share_path)}'
+    # This is the package where sensors are stored.
+    sensors_package_name = "sensors"
+    sensors_share_path = get_package_share_directory(sensors_package_name)
+
+    resources_path = f'{os.environ.get("GZ_SIM_RESOURCE_PATH", "")}:{world_share_path}:{dirname(robot_share_path)}:{dirname(sensors_share_path)}'
 
     # Start a simulation with the chosen world
     world_uri = join(world_share_path, "worlds", world_file)
@@ -38,6 +42,7 @@ def generate_launch_description():
         additional_env={
             "GZ_SIM_RESOURCE_PATH": resources_path,
             "GZ_SIM_SYSTEM_PLUGIN_PATH": f'{os.environ.get("LD_LIBRARY_PATH", "")}',
+            "LD_LIBRARY_PATH": f'{os.environ.get("LD_LIBRARY_PATH", "")}',
         },
         output="screen",
     )
@@ -76,28 +81,51 @@ def generate_launch_description():
             "0.8",
             "-z",
             "0.40",
-            "--ros-args",
-            "--log-level",
-            "debug",
+            # "--ros-args",
+            # "--log-level",
+            # "debug",
         ],
         name="spawn_robot",
         output="both",
     )
 
+    bridge_params = os.path.join(
+        get_package_share_directory(robot_package_name),'config','gz_bridge_params.yaml')
+    
     # Gazebo Bridge: This brings data (sensors/clock) out of gazebo into ROS.
-    bridge = Node(
+    ros_gz_bridge = Node(
         package="ros_gz_bridge",
         executable="parameter_bridge",
         arguments=[
-            "/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock",
-            # '/lidar@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan',
-            # '/lidar/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
-            # '/realsense/image@sensor_msgs/msg/Image[gz.msgs.Image',
-            # '/realsense/depth_image@sensor_msgs/msg/Image[gz.msgs.Image',
-            # '/realsense/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
-        ],
-        output="screen",
+            '--ros-args',
+            '-p',
+            f'config_file:={bridge_params}',
+            ],
     )
+
+    ros_gz_image_bridge = Node(
+        package="ros_gz_image",
+        executable="image_bridge",
+        arguments=["/camera/image_raw"],
+    )
+
+    
+    # Step 7: Publish static transforms
+    # What is this ? Is this needed?
+
+    static_pub = Node(
+        package="tf2_ros",
+        executable="static_transform_publisher",
+        arguments=[
+            "0", "0", "0", # x,y,z
+            "0", "0", "0", # roll, pitch, yaw
+            "world", # parent frame
+            "realsense_link", # child frame
+        ],
+    )
+
+
+
 
     # Step 5: Enable the ros2 controllers
     start_controllers = TimerAction(
@@ -112,15 +140,14 @@ def generate_launch_description():
         ],
     )
 
-    # Joint State Publisher GUI
-    joint_state_publisher_gui = Node(
-        package="joint_state_publisher_gui",
-        executable="joint_state_publisher_gui",
-        name="joint_state_publisher_gui",
-        output="screen",
-        parameters=[{"use_sim_time": True}],
-    )
-
+    # # Joint State Publisher GUI
+    # joint_state_publisher_gui = Node(
+    #     package="joint_state_publisher_gui",
+    #     executable="joint_state_publisher_gui",
+    #     name="joint_state_publisher_gui",
+    #     output="screen",
+    #     parameters=[{"use_sim_time": True}],
+    # )
     # Launch RViz
     rviz_config = join(
         robot_share_path, "config", "my_arm.rviz"
@@ -139,10 +166,12 @@ def generate_launch_description():
         [
             gazebo_sim,
             robot_state_publisher,
-            bridge,
             robot,
-            joint_state_publisher_gui,
+            # joint_state_publisher_gui,
             rviz_node,
             start_controllers,
+            static_pub,
+            ros_gz_image_bridge,
+            ros_gz_bridge,
         ]
     )
