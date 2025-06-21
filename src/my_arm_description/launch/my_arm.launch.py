@@ -38,7 +38,12 @@ def generate_launch_description():
     world_uri = join(world_share_path, "worlds", world_file)
 
     gazebo_sim = ExecuteProcess(
-        cmd=["gz", "sim", "-r", world_uri],
+        cmd=["gz", "sim", 
+             "-r", 
+             "-v", "4",  # verbosity level
+             "--gui-config", join(robot_share_path, "config", "gazebo_gui.config"), # GUI config file
+             world_uri
+             ],
         additional_env={
             "GZ_SIM_RESOURCE_PATH": resources_path,
             "GZ_SIM_SYSTEM_PLUGIN_PATH": f'{os.environ.get("LD_LIBRARY_PATH", "")}',
@@ -46,6 +51,7 @@ def generate_launch_description():
         },
         output="screen",
     )
+
 
     # Create a robot in the world.
     # Steps:
@@ -97,11 +103,13 @@ def generate_launch_description():
         package="ros_gz_bridge",
         executable="parameter_bridge",
         arguments=[
-            '--ros-args',
-            '-p',
-            f'config_file:={bridge_params}',
-            ],
+            # GZ → ROS for clock
+            "/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock",
+            # GZ → ROS for camera_info
+            "/camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo",
+        ],
     )
+
 
     ros_gz_image_bridge = Node(
         package="ros_gz_image",
@@ -148,10 +156,11 @@ def generate_launch_description():
     #     output="screen",
     #     parameters=[{"use_sim_time": True}],
     # )
+
     # Launch RViz
     rviz_config = join(
         robot_share_path, "config", "my_arm.rviz"
-    )  # Adjust if you have a config file
+    )
 
     rviz_node = Node(
         package="rviz2",

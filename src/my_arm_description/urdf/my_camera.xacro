@@ -46,7 +46,7 @@
                 <visualize>true</visualize>
                 <camera>
                     <camera_info>camera/camera_info</camera_info>
-                    <horizontal_fov>1.047</horizontal_fov> <!-- ~60 degrees -->
+                    <horizontal_fov>1.047</horizontal_fov> <!-- ~60 degrees UPDATE THESE VALUES-->
                     <image>
                         <width>640</width>
                         <height>480</height>
