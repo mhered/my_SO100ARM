@@ -17,6 +17,10 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(realsense2_description REQUIRED)
+find_package(sensors REQUIRED)
+find_package(xacro REQUIRED)
+find_package(sensor_msgs REQUIRED)
 
 #install folders
 install(DIRECTORY

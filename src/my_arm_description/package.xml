@@ -12,6 +12,21 @@
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
 
+  <depend>controller_manager</depend>
+  <depend>launch_param_builder</depend>
+  <depend>my_worlds</depend>
+  <depend>robot_state_publisher</depend>
+  <depend>ros_gz_bridge</depend>
+  <depend>ros_gz_image</depend>
+  <depend>ros_gz_sim</depend>
+  <depend>rviz2</depend>
+  <depend>sensor_msgs</depend>
+  <depend>sensors</depend>
+  <depend>tf2_ros</depend>
+  <depend>xacro</depend>
+  
+  <depend>realsense2_description</depend>
+
   <export>
     <build_type>ament_cmake</build_type>
   </export>
