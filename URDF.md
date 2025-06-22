@@ -172,6 +172,29 @@ To note:
 
 [...]
 
+### Start
+
+```bash
+$ ros2 topic pub /soarm100_controller/joint_trajectory trajectory_msgs/msg/JointTrajectory "header:
+  stamp:
+    sec: 0
+    nanosec: 0
+  frame_id: ''
+joint_names:
+- base_to_shoulder_joint
+- shoulder_to_upper_arm_joint
+- upper_arm_to_lower_arm_joint
+- lower_arm_to_wrist_joint
+- wrist_to_fixed_jaw_joint
+- fixed_to_moving_jaw_joint
+points:
+- positions: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+  time_from_start:
+    sec: 1
+    nanosec: 0"
+
+```
+
 ### Approach
 
 ```bash
