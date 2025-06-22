@@ -4,23 +4,26 @@
 
     <xacro:macro name="camera" params="camera_name world_link_name *origin">
         <!-- Define the material once -->
-        <material name="orange">
-            <color rgba="1.0 0.55 0.0 1.0" />
+        <material name="black">
+            <color rgba="0.1 0.1 0.1 1.0" />
+        </material>
+        <material name="green">
+            <color rgba="0.0 0.6 0.2 1.0" />
         </material>
         <!-- Camera Link -->
         <link name="${camera_name}_link">
             <visual>
                 <geometry>
-                    <box size="0.01 0.03 0.03" />
+                    <box size="0.0015 0.035 0.025" />
                 </geometry>
-                <material name="orange" />
+                <material name="green" />
             </visual>
             <visual>
-                <origin xyz="0 0 -0.05" />
+                <origin xyz="0.0025 0 0" rpy="0 ${pi/2} 0"/>
                 <geometry>
-                    <cylinder radius="0.002" length="0.1" />
+                    <cylinder radius="0.005" length="0.004" />
                 </geometry>
-                <material name="orange" />
+                <material name="black" />
             </visual>
             <inertial>
                 <mass value="0.01" />
@@ -38,7 +41,7 @@
         <link name="${camera_name}_link_optical"></link>
 
         <gazebo reference="${camera_name}_link">
-            <material>Gazebo/Orange</material>
+            <!--material>Gazebo/Orange</material -->
 
             <sensor type="camera" name="${camera_name}_sensor">
                 <always_on>true</always_on>
