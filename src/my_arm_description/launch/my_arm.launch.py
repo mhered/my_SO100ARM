@@ -40,7 +40,7 @@ def generate_launch_description():
     gazebo_sim = ExecuteProcess(
         cmd=["gz", "sim", 
              "-r", 
-             "-v", "4",  # verbosity level
+             # "-v", "4",  # verbosity level
              "--gui-config", join(robot_share_path, "config", "gazebo_gui.config"), # GUI config file
              world_uri
              ],
@@ -105,8 +105,10 @@ def generate_launch_description():
         arguments=[
             # GZ → ROS for clock
             "/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock",
-            # GZ → ROS for camera_info
-            "/camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo",
+            # GZ → ROS for wrist camera info
+            "/wrist_camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo",
+            # If you enable tripod_camera, add this line:
+            # "/tripod_camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo",
         ],
     )
 
@@ -114,7 +116,11 @@ def generate_launch_description():
     ros_gz_image_bridge = Node(
         package="ros_gz_image",
         executable="image_bridge",
-        arguments=["/camera/image_raw"],
+        arguments=[
+            "/wrist_camera/image_raw",
+            # If you enable tripod_camera, add this line:
+            # "/tripod_camera/image_raw",
+        ],
     )
 
     
