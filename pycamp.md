@@ -234,20 +234,20 @@ In `/home/mhered/lerobot/lerobot/common/robot_devices/robots/configs.py`:
   --robot.type=so100 \
   --control.type=record \
   --control.fps=30 \
-  --control.single_task="Grasp a ducky." \
+  --control.single_task="Grab a duck-hackaton" \
   --control.repo_id=${HF_USER}/so100_test \
   --control.tags='["so100","tutorial"]' \
   --control.warmup_time_s=5 \
   --control.episode_time_s=30 \
-  --control.reset_time_s=30 \
+  --control.reset_time_s=15 \
   --control.num_episodes=2 \
-  --control.push_to_hub=true \
+  --control.push_to_hub=true
 ```
 
 Add more episodes (resume recording):
 
 ```bash
-(lerobot)$ python lerobot/scripts/control_robot.py   --robot.type=so100   --control.type=record   --control.fps=30   --control.single_task="Grasp a ducky."   --control.repo_id=${HF_USER}/so100_test    --control.warmup_time_s=5   --control.episode_time_s=30   --control.reset_time_s=20   --control.num_episodes=10   --control.push_to_hub=true --control.display_data=true --control.resume=true
+(lerobot)$ python lerobot/scripts/control_robot.py   --robot.type=so100   --control.type=record   --control.fps=30   --control.single_task="Grasp a ducky."   --control.repo_id=${HF_USER}/so100_test    --control.warmup_time_s=5   --control.episode_time_s=30   --control.reset_time_s=15   --control.num_episodes=10   --control.push_to_hub=true --control.display_data=true --control.resume=true
 ```
 
 Why is the gripper stalling?
@@ -305,4 +305,36 @@ wandb: Currently logged in as: manoloheredia (manoloheredia-duckietown) to https
   --control.push_to_hub=true \
   --control.policy.path=outputs/lerobot_final
 ```
+
+---
+
+June 2025 
+
+Just did a git pull and brought in many changes
+
+with this command I find the previous commit:
+
+```bash
+$ git log -1 ORIG_HEAD
+commit 6d723c45a993d1e030dfda20d48a893a74a4fe11
+Author: Caroline Pascal <caroline8.pascal@gmail.com>
+Date:   Tue Apr 29 17:39:35 2025 +0200
+
+    feat(encoding): switching to PyAV for ffmpeg related tasks (#983)
+
+```
+
+this is the status before the pull. 
+I had stashed all the unsaved changes, except an untracked file that I saved separately. so I saved all these changes to a local `pycamp2025` branch
+
+```bash
+$ git checkout -b pycamp2025 6d723 # back to the status pre pull
+$ git stash apply stash@{0} # apply the stash
+$ git add .
+$ git commit
+```
+
+So normally now the old syntax it should work if I checkout on this branch, and in main the new syntax should work
+
+
 
