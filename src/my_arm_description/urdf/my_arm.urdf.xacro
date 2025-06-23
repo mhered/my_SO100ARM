@@ -231,17 +231,15 @@
     <!-- Include cameras -->
     <xacro:include filename="$(find my_arm_description)/urdf/my_camera.xacro" />
 
+    <!-- Wrist mounted camera -->
     <xacro:camera world_link_name="fixed_jaw_link" camera_name="wrist_camera">
-        <!--origin xyz="-0.02 0.0 0.05" rpy="0 0.4 ${-pi/2}" /-->
         <origin xyz="-0.082 0.002 0.044" rpy="0 ${-pi/2+0.95} 0 " />
     </xacro:camera>
 
-    <!--
+    <!-- Fixed tripod camera -->
     <xacro:camera world_link_name="world" camera_name="tripod_camera">
-        <origin xyz="0.2 0.2 .2" rpy="0 0 ${-pi/3}" />
+        <origin xyz="-0.7 0.0 0.5" rpy="0 ${pi/6} -${pi/6}" />
     </xacro:camera>
-    -->
-
 
     <!-- Import and add realsense -->
     <xacro:include filename="$(find sensors)/realsense_d435/realsense.urdf.xacro" />

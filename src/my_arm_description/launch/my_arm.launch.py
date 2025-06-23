@@ -108,7 +108,7 @@ def generate_launch_description():
             # GZ → ROS for wrist camera info
             "/wrist_camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo",
             # If you enable tripod_camera, add this line:
-            # "/tripod_camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo",
+            "/tripod_camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo",
         ],
     )
 
@@ -119,7 +119,7 @@ def generate_launch_description():
         arguments=[
             "/wrist_camera/image_raw",
             # If you enable tripod_camera, add this line:
-            # "/tripod_camera/image_raw",
+            "/tripod_camera/image_raw",
         ],
     )
 

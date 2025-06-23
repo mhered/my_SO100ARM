@@ -2,28 +2,29 @@
 <robot name="my_camera"
     xmlns:xacro="http://ros.org/wiki/xacro">
 
-    <xacro:macro name="camera" params="camera_name world_link_name *origin">
-        <!-- Define the material once -->
-        <material name="black">
+    <!-- Define materials once -->
+        <material name="camera_lens">
             <color rgba="0.1 0.1 0.1 1.0" />
         </material>
-        <material name="green">
+        <material name="PCB">
             <color rgba="0.0 0.6 0.2 1.0" />
         </material>
+
+    <xacro:macro name="camera" params="camera_name world_link_name *origin">
         <!-- Camera Link -->
         <link name="${camera_name}_link">
             <visual>
                 <geometry>
                     <box size="0.0015 0.035 0.025" />
                 </geometry>
-                <material name="green" />
+                <material name="PCB" />
             </visual>
             <visual>
                 <origin xyz="0.0025 0 0" rpy="0 ${pi/2} 0"/>
                 <geometry>
                     <cylinder radius="0.005" length="0.004" />
                 </geometry>
-                <material name="black" />
+                <material name="camera_lens" />
             </visual>
             <inertial>
                 <mass value="0.01" />
