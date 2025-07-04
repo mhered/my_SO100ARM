@@ -29,7 +29,7 @@ def generate_launch_description():
     robot_share_path = get_package_share_directory(robot_package_name)
 
     # This is the package where sensors are stored.
-    sensors_package_name = "sensors"
+    sensors_package_name = "my_sensors"
     sensors_share_path = get_package_share_directory(sensors_package_name)
 
     resources_path = f'{os.environ.get("GZ_SIM_RESOURCE_PATH", "")}:{world_share_path}:{dirname(robot_share_path)}:{dirname(sensors_share_path)}'
@@ -79,6 +79,7 @@ def generate_launch_description():
         package="ros_gz_sim",
         executable="create",
         arguments=[
+            # "-name", "my_arm.urdf",
             "-topic",
             "/robot_description",
             "-x",
@@ -109,6 +110,12 @@ def generate_launch_description():
             "/wrist_camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo",
             # If you enable tripod_camera, add this line:
             "/tripod_camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo",
+            # GZ → ROS for realsense camera info (correct topic names)
+            #"/realsense/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo",
+            #"/realsense/depth/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo",
+            "/realsense/image@sensor_msgs/msg/Image[gz.msgs.Image",
+            "/realsense/depth@sensor_msgs/msg/Image[gz.msgs.Image",
+            "/realsense/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked",
         ],
     )
 
@@ -120,6 +127,9 @@ def generate_launch_description():
             "/wrist_camera/image_raw",
             # If you enable tripod_camera, add this line:
             "/tripod_camera/image_raw",
+            # GZ → ROS for realsense color and depth images (correct topic names)
+            # "/realsense/image",
+            # "/realsense/depth",
         ],
     )
 
@@ -127,16 +137,16 @@ def generate_launch_description():
     # Step 7: Publish static transforms
     # What is this ? Is this needed?
 
-    static_pub = Node(
-        package="tf2_ros",
-        executable="static_transform_publisher",
-        arguments=[
-            "0", "0", "0", # x,y,z
-            "0", "0", "0", # roll, pitch, yaw
-            "world", # parent frame
-            "realsense_link", # child frame
-        ],
-    )
+    # static_pub = Node(
+    #     package="tf2_ros",
+    #     executable="static_transform_publisher",
+    #     arguments=[
+    #         "0", "0", "0", # x,y,z
+    #         "0", "0", "0", # roll, pitch, yaw
+    #         "realsense_link", # world frame
+    #         "my_arm.urdf/realsense_link/realsense_d435",
+    #     ],
+    # )
 
 
 
@@ -185,7 +195,7 @@ def generate_launch_description():
             # joint_state_publisher_gui,
             rviz_node,
             start_controllers,
-            static_pub,
+            # static_pub,
             ros_gz_image_bridge,
             ros_gz_bridge,
         ]

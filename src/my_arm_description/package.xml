@@ -14,17 +14,18 @@
 
   <depend>controller_manager</depend>
   <depend>launch_param_builder</depend>
-  <depend>my_worlds</depend>
   <depend>robot_state_publisher</depend>
   <depend>ros_gz_bridge</depend>
   <depend>ros_gz_image</depend>
   <depend>ros_gz_sim</depend>
   <depend>rviz2</depend>
   <depend>sensor_msgs</depend>
-  <depend>sensors</depend>
   <depend>tf2_ros</depend>
   <depend>xacro</depend>
-  
+
+  <depend>my_worlds</depend>
+  <depend>my_sensors</depend>
+
   <depend>realsense2_description</depend>
 
   <export>
