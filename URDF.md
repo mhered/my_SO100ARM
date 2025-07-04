@@ -1,6 +1,6 @@
 # Modeling the arm from scratch
 
-We will create description package for the arm from scratch ready to later be symplinked into our workspace iaw **"the good way to download code from internet":tm:**, see [notes on ETH Zurich course](https://github.com/mhered/ROS-notes/blob/main/ROS-notes/ROS_ETH_Zurich_L1.md). 
+We will create description package for the arm from scratch ready to later be symlinked into our workspace iaw **"the good way to download code from internet":tm:**, see [notes on ETH Zurich course](https://github.com/mhered/ROS-notes/blob/main/ROS-notes/ROS_ETH_Zurich_L1.md). 
 
 Note: If you don't have a workspace yet, create and initialize it with:
 
@@ -11,8 +11,6 @@ $ colcon build
                      
 Summary: 0 packages finished [0.20s]
 ```
-
-
 
 Create new package `my_arm_description` in a new `/src/`folder inside this repo `my_SOARM100` (use the default build type `ament_cmake`)
 
@@ -172,7 +170,37 @@ To note:
 
 [...]
 
-### Start
+## Moving the arm
+
+Commands to move the arm to named positions
+
+### Rest
+
+
+
+```bash
+$ ros2 topic pub /soarm100_controller/joint_trajectory trajectory_msgs/msg/JointTrajectory "header:
+  stamp:
+    sec: 0
+    nanosec: 0
+  frame_id: ''
+joint_names:
+- base_to_shoulder_joint
+- shoulder_to_upper_arm_joint
+- upper_arm_to_lower_arm_joint
+- lower_arm_to_wrist_joint
+- wrist_to_fixed_jaw_joint
+- fixed_to_moving_jaw_joint
+points:
+- positions: [0.0, 1.75, -1.55, -1.2, 0, -0.2]
+  time_from_start:
+    sec: 1
+    nanosec: 0"
+```
+
+### Neutral
+
+All joints at 0 except the wrist to have it vertical
 
 ```bash
 $ ros2 topic pub /soarm100_controller/joint_trajectory trajectory_msgs/msg/JointTrajectory "header:
@@ -196,6 +224,8 @@ points:
 ```
 
 ### Approach
+
+Move closer to the duck
 
 ```bash
 $ ros2 topic pub /soarm100_controller/joint_trajectory trajectory_msgs/msg/JointTrajectory "header:
@@ -222,6 +252,8 @@ points:
 
 ### Grab
 
+Close the fingers
+
 ```bash
 $ ros2 topic pub /soarm100_controller/joint_trajectory trajectory_msgs/msg/JointTrajectory "header:
   stamp:
@@ -247,6 +279,8 @@ points:
 
 ### Lift
 
+Lift the duck 
+
 ```bash
 $ ros2 topic pub /soarm100_controller/joint_trajectory trajectory_msgs/msg/JointTrajectory "header:
   stamp:
@@ -270,7 +304,9 @@ points:
 
 
 
-### Drop
+### Lower
+
+Lower the duck onto the table
 
 ```bash
 $ ros2 topic pub /soarm100_controller/joint_trajectory trajectory_msgs/msg/JointTrajectory "header:
@@ -295,7 +331,60 @@ points:
 
 
 
+### Release
+
+Open the fingers to release the duck. Note that the duck rolls strangely, I think I got the inertias wrong
+
+```bash
+$ ros2 topic pub /soarm100_controller/joint_trajectory trajectory_msgs/msg/JointTrajectory "header:
+  stamp:
+    sec: 0
+    nanosec: 0
+  frame_id: ''
+joint_names:
+- base_to_shoulder_joint
+- shoulder_to_upper_arm_joint
+- upper_arm_to_lower_arm_joint
+- lower_arm_to_wrist_joint
+- wrist_to_fixed_jaw_joint
+- fixed_to_moving_jaw_joint
+points:
+- positions:  [-0.51, -0.6, -0.5, 1.2, -1.5708, 1.0]
+  time_from_start:
+    sec: 1
+    nanosec: 0"
+
+```
+
+### Withdraw
+
+Withdraw the arm quasi tot he neutral position
+
+```bash
+$ ros2 topic pub /soarm100_controller/joint_trajectory trajectory_msgs/msg/JointTrajectory "header:
+  stamp:
+    sec: 0
+    nanosec: 0
+  frame_id: ''
+joint_names:
+- base_to_shoulder_joint
+- shoulder_to_upper_arm_joint
+- upper_arm_to_lower_arm_joint
+- lower_arm_to_wrist_joint
+- wrist_to_fixed_jaw_joint
+- fixed_to_moving_jaw_joint
+points:
+- positions: [-0.2, 0.0, 0.0, 0.0, -1.5708, 0.6]
+  time_from_start:
+    sec: 1
+    nanosec: 0"
+```
+
+
+
 ### Rest
+
+Go back to rest
 
 ```bash
 $ ros2 topic pub /soarm100_controller/joint_trajectory trajectory_msgs/msg/JointTrajectory "header:
@@ -315,5 +404,4 @@ points:
   time_from_start:
     sec: 1
     nanosec: 0"
-
 ```
