@@ -10,7 +10,7 @@ I originally followed the [Build guide for Standard Open ARM 100 5DOF - Low cost
 
 The repo includes a STEP file of the current version [here](https://github.com/TheRobotStudio/SO-ARM100/tree/main/STEP). I imported it into FreeCAD, exploded it into parts as explained [here](https://www.youtube.com/watch?v=4UITPBWyehs) and colored them differently for easier identification (see the resulting FreeCAD model [here](./CAD/SO_5DOF_ARM100_08k.FCStd)):  
 
-<img src="/home/mhered/my_SOARM100/assets/follower_arm.png" style="zoom: 33%;" />
+<img src="./assets/follower_arm.png" style="zoom: 33%;" />
 
 ## Step by step assembly
 

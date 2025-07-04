@@ -101,7 +101,7 @@ Note: The calibration script mentioned in the video does not exist.
 2. Install the driver `CH341SER.EXE`
 3. Connect the board to a 12V power supply and to the USB. Check switch is set to 5V. Connect the Servo. **Note: Had to connect 12V input to G - V1 terminals, even though they are rated DC6V-8V. If I connect to G-V2 (rated 8V-24V) it would not work!!** Did this by executive decision, I found nothing online.
 
-<img src="/home/mhered/my_SOARM100/assets/board_detail_xs.jpg" style="zoom:50%;" />
+<img src="./assets/board_detail_xs.jpg" style="zoom:50%;" />
 
 2. Check in **Device Manager** under **Ports**: `USB-SERIAL CH340 (COM4)`
 3. Install and launch `FD.EXE`
@@ -109,6 +109,6 @@ Note: The calibration script mentioned in the video does not exist.
 5. Click on the detected Servo, go to tab **Programming**, select **ID**, rename to 6 , click **Save**
 6. Connect another servo in daisy chain, repeat the process and rename it to 5, then 4, etc until 1.
 
-<img src="/home/mhered/my_SOARM100/assets/renaming_servos_xs.jpg" style="zoom: 33%;" />
+<img src="./assets/renaming_servos_xs.jpg" style="zoom: 33%;" />
 
 7. In **Debug** tab, select the **Sync Write** toggle, set **Goal** to 2048 then click **Set** to zero all servos to the middle point.
