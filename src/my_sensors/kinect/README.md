@@ -7,4 +7,4 @@
 
 ## To do 
 
-- [ ] Put order in the different packages related to kinect: mrpt utils, modeling, adding th real kinect to ROS2 
+- [ ] Put order in the different packages related to kinect: mrpt utils, modeling, adding the real kinect to ROS2 
