@@ -10,6 +10,12 @@ Todo:
 
 - [ ] add pics and videos
 
+
+
+# ***SEE NOTE: JUNE 2025 at the end of this file
+
+
+
 ## Installation lerobot
 
 Source: https://github.com/huggingface/lerobot
@@ -308,11 +314,11 @@ wandb: Currently logged in as: manoloheredia (manoloheredia-duckietown) to https
 
 ---
 
-June 2025 
+## Note: June 2025 
 
-Just did a git pull and brought in many changes
+Trying to resume training I realized there had been breaking changes to lerobot library and a change in syntax. 
 
-with this command I find the previous commit:
+I accidentelly did a git pull and messed the repo. However I found this is previous commit to the version of the repo I used in pycamp:
 
 ```bash
 $ git log -1 ORIG_HEAD
@@ -324,8 +330,7 @@ Date:   Tue Apr 29 17:39:35 2025 +0200
 
 ```
 
-this is the status before the pull. 
-I had stashed all the unsaved changes, except an untracked file that I saved separately. so I saved all these changes to a local `pycamp2025` branch
+I had stashed all the unsaved changes, except an untracked file that I saved separately. I saved these changes to a local `pycamp2025` branch
 
 ```bash
 $ git checkout -b pycamp2025 6d723 # back to the status pre pull
@@ -336,5 +341,5 @@ $ git commit
 
 So normally now the old syntax it should work if I checkout on this branch, and in main the new syntax should work
 
-
+Unfortunately later I deleted the complete lerobot repo and cloned it again. However this should help if I ever want to go back to repeat waht I did here
 
