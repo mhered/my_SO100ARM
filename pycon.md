@@ -16,7 +16,28 @@ Had to renumber the motors from 6-1 to 1-6 using the FE-URT-1 board under window
 
 had to delete and reinstall lerobot
 
-## setup conda
+## Quick Start
+
+- switch on power supply
+- connect usb-c of follower arm
+- connect usb-c of leader arm
+- teleoperate without camera:
+
+```bash
+lerobot-teleoperate \
+    --robot.type=so100_follower \
+    --robot.port=/dev/ttyACM0 \
+    --robot.id=my_follower_arm \
+    --teleop.type=so100_leader \
+    --teleop.port=/dev/ttyACM1 \
+    --teleop.id=my_leader_arm
+```
+
+
+
+## First Setup
+
+### setup conda
 
 Sources: https://huggingface.co/docs/lerobot/en/installation and https://huggingface.co/docs/lerobot/so100
 
@@ -50,7 +71,7 @@ $ conda activate lerobot
 (lerobot)$ conda install ffmpeg -c conda-forge
 ```
 
-## Install lerobot (from source) 
+### Install lerobot (from source) 
 
 Clone the repo:
 
@@ -66,7 +87,7 @@ install dependencies and lerobot:
 (lerobot)$ pip install -e ".[feetech]"
 ```
 
-##  Connect the arms
+###  Connect the arms
 
 Connect follower first then leader arm while checking ports live with
 
@@ -74,9 +95,9 @@ Connect follower first then leader arm while checking ports live with
 (lerobot)$ watch -n 1 ls /dev/ttyACM*
 ```
 
-## Calibrate
+### Calibrate
 
-### Follower arm
+#### Follower arm
 
 ```bash
 (lerobot)$ lerobot-calibrate \
@@ -111,7 +132,7 @@ Calibration saved to /home/mhered/.cache/huggingface/lerobot/calibration/robots/
 INFO 2025-09-16 23:03:06 follower.py:232 my_follower_arm SO100Follower disconnected.
 ```
 
-### Leader arm
+#### Leader arm
 
 ```bash
 (lerobot)$ lerobot-calibrate \
@@ -148,7 +169,7 @@ Note calibration data is now saved to:
 
 `/home/mhered/.cache/huggingface/lerobot/calibration/teleoperators/so100_leader/my_leader_arm.json`
 
-## Teleoperate
+### Teleoperate
 
 ```bash
 (lerobot)$ lerobot-teleoperate \
@@ -167,7 +188,7 @@ This command will automatically:
 
 
 
-## Setup cameras
+### Setup cameras
 
 Source: https://huggingface.co/docs/lerobot/en/cameras
 
@@ -231,7 +252,7 @@ Identify cameras by looking at the images stored in the `outputs/captured_images
 
 In this case `/dev/video4` is `head_cam` and `/dev/video6` is `top_cam`
 
-## Teleop with cameras (& visualize)
+### Teleop with cameras (& visualize)
 
 ```bash
 (lerobot)$ lerobot-teleoperate \
@@ -245,7 +266,7 @@ In this case `/dev/video4` is `head_cam` and `/dev/video6` is `top_cam`
     --display_data=true
 ```
 
-## Setup HuggingFace token 
+### Setup HuggingFace token 
 
 Source: https://huggingface.co/docs/lerobot/en/il_robots
 
@@ -265,93 +286,160 @@ The current active token is: `vader-pycon`
 mhered
 ```
 
-## Record a couple of episodes (init repo)
+### Record a couple of episodes (init repo)
 
 Source: https://huggingface.co/docs/lerobot/en/il_robots
 
 ```bash
 (lerobot)$ lerobot-record \
-    --robot.type=so100_follower \
-    --robot.port=/dev/ttyACM0 \
-    --robot.id=my_follower_arm \
-    --robot.cameras="{ head_cam: {type: opencv, index_or_path: 4, width: 640, height: 480, fps: 30}, top_cam: {type: opencv, index_or_path: 6, width: 640, height: 480, fps: 30}}" \
-    --teleop.type=so100_leader \
-    --teleop.port=/dev/ttyACM1 \
-    --teleop.id=my_leader_arm \
-    --display_data=true
-    --dataset.repo_id=${HF_USER}/recording-test \
-    --dataset.num_episodes=3 \
-    --dataset.single_task="Grab a duckie"
+  --robot.type=so100_follower \
+  --robot.port=/dev/ttyACM0 \
+  --robot.id=my_follower_arm \
+  --robot.cameras="{ head_cam: {type: opencv, index_or_path: 4, width: 640, height: 480, fps: 30}, top_cam: {type: opencv, index_or_path: 6, width: 640, height: 480, fps: 30} }" \
+  --teleop.type=so100_leader \
+  --teleop.port=/dev/ttyACM1 \
+  --teleop.id=my_leader_arm \
+  --display_data=true \
+  --dataset.repo_id=${HF_USER}/recording-test \
+  --dataset.num_episodes=3 \
+  --dataset.episode_time_s=30 \
+  --dataset.reset_time_s=15 \
+  --dataset.single_task="Grab a duckie"
 ```
 
-Does not work: error bash: --dataset.repo_id=mhered/recording-test: No such file or directory
+Control the data recording flow using keyboard shortcuts:
 
-
-
-**HERE!!**
-
-
+- Press **Right Arrow (`→`)**: Early stop the current episode or reset time and move to the next.
+- Press **Left Arrow (`←`)**: Cancel the current episode and re-record it.
+- Press **Escape (`ESC`)**: Immediately stop the session, encode videos, and upload the dataset.
 
 Add more episodes (resume recording):
 
 ```bash
-(lerobot)$ python lerobot/scripts/control_robot.py   --robot.type=so100   --control.type=record   --control.fps=30   --control.single_task="Grasp a ducky."   --control.repo_id=${HF_USER}/so100_test    --control.warmup_time_s=5   --control.episode_time_s=30   --control.reset_time_s=15   --control.num_episodes=10   --control.push_to_hub=true --control.display_data=true --control.resume=true
+(lerobot)$ lerobot-record \
+  --robot.type=so100_follower \
+  --robot.port=/dev/ttyACM0 \
+  --robot.id=my_follower_arm \
+  --robot.cameras="{ head_cam: {type: opencv, index_or_path: 4, width: 640, height: 480, fps: 30}, top_cam: {type: opencv, index_or_path: 6, width: 640, height: 480, fps: 30} }" \
+  --teleop.type=so100_leader \
+  --teleop.port=/dev/ttyACM1 \
+  --teleop.id=my_leader_arm \
+  --display_data=true \
+  --dataset.repo_id=${HF_USER}/recording-test \
+  --dataset.num_episodes=5 \
+  --dataset.episode_time_s=50 \
+  --dataset.reset_time_s=10 \
+  --dataset.single_task="Grab a duckie" \
+  --resume=true
+
+
 ```
 
-Why is the gripper stalling?
+Advice:
+
+- look only at the camera feeds: if it is difficult for you to complete the task looking only at camera feeds it will be difficult for the model
+- keep leader arm, moving background out of the camera field of view
+- Record 60 episodes
+  * first ~20 in roughly the same position
+  * ~20 changing starting positions of duckie and barrel
+  * ~20 varying also the lighting and the color of the barrel to add robustness and avoid overfitting
 
 ## Training
 
+When finished recording train using the [ACT training notebook](https://huggingface.co/docs/lerobot/en/notebooks#training-act) in Collab.
+
+My version here: https://github.com/mhered/robotica_patito_pycon2025/blob/main/lerobot/training-act.ipynb
+
+The notebook has cells to install conda, lerobot, setup wandb.ai and start training.
+
+I created an account in wandb.ai with Google OAuth SPAM, organization Duckietown 
+
+Note: Before running any cells, select A100 GPU runtime type (requires making a purchase, the cheapest option of 100 units pay as you go  for ~10€ will be plenty. 1-2hrs of training expected).
+
+Note: If you stop before a checkpoint you cannot resume, lose progress, by default  does first checkpoint 20k steps!!
+
 ```bash
-(lerobot) $ python lerobot/scripts/train.py \
-  --dataset.repo_id=${HF_USER}/so100_test \
+$ lerobot-train \
+  --dataset.repo_id=mhered/recording-test \
   --policy.type=act \
-  --output_dir=outputs/train/act_so100_test \
-  --job_name=act_so100_test \
+  --output_dir=outputs/train/act_so100_pato_test1 \
+  --job_name=act_so100_pato_test \
   --policy.device=cuda \
-  --wandb.enable=true
+  --wandb.enable=true \
+  --policy.repo_id=mhered/my_act
 ```
 
-### Setup Weight and Biases
+## Check progress in wandb.ai
 
-`wandb` already installed
+https://wandb.ai/spam-mhered-duckietown/lerobot/workspace?nw=nwuserspammhered
+
+![](./assets/training_kpis_1.png)
+
+![](./assets/training_kpis_2.png)
+
+### Losses
+
+- **`train/loss`** – the **total objective** used to update the model each step.
+   For ACT+VAE it’s roughly:
+   `total ≈ l1_loss + kl_weight * kld_loss` (you had `kl_weight=10.0`).
+- **`train/l1_loss`** – **reconstruction error** (L1) between predicted actions (or decoded targets) and the demo ground truth. Lower is better.
+- **`train/kld_loss`** – **KL divergence** term from the VAE. Often logged **unscaled**; the scaled piece contributes to `train/loss`. Too low (≈0) can mean the latent isn’t used; too high hurts fit.
+
+### Optimization/throughput
+
+- **`train/grad_norm`** – global gradient L2 norm. You clip at `grad_clip_norm` (e.g., 10). Constant clipping → try a slightly smaller LR or check instability.
+- **`train/dataloading_s`** – **seconds per step spent loading/decoding data**. If this approaches `update_s`, the **DataLoader is your bottleneck** → reduce workers, cache locally, smaller images, fewer cams, etc.
+- **`update_s`** – **seconds per optimization step** (forward+backward+optimizer). Should drop on A100 vs T4 and with AMP.
+
+### Progress counters
+
+- **`train/epochs`** – effective **passes over the dataset** (`samples_processed / dataset_size`). In your console this is `epch`.
+- **`train/episodes`** – number of **trajectory demos** traversed so far (your dataset had ~61). In the console log this shows as `ep`.
+- **`train/steps`** – **optimizer steps** taken (what triggers `save_freq`/`eval_freq`).
+- **`train/samples`** – cumulative **training examples** processed (think “windows/batches,” not raw frames).
+
+### Other
+
+- **`lr`** – current **learning rate** (constant if no scheduler; otherwise it changes over time).
+
+### What “good” looks like
+
+- `train/l1_loss` and total `train/loss` trending **down**.
+- `train/kld_loss` settling to a small non-zero value (scaled by `kl_weight` inside total).
+- `train/grad_norm` not constantly at the clip ceiling.
+- `train/dataloading_s` noticeably **smaller** than `update_s`.
+
+## ChatGPT assessment:
+
+Overall this looks **healthy** :
+
+- **Losses drop cleanly.** `train/loss` and `train/l1_loss` trend down across runs; no divergence.
+- **KLD behaves.** `train/kld_loss` decays to a small non-zero value. With `kl_weight=10`, the latent is heavily regularized; for a single pick-and-place that’s fine, but it does mean the L1 term dominates.
+- **Gradients are stable.** `train/grad_norm` starts high (~14–15), then eases to ~5–8 → fewer/softer clips; good signal the model settled.
+- **Throughput is compute-bound.** `train/update_s` ~0.55s/step on the slower run vs ~0.08s/step on the fast one (A100/AMP). `train/dataloading_s` ~0.02–0.04s, well below `update_s`, so the loader isn’t your bottleneck.
+- **Progress counters are sane.** `steps`, `samples`, `epochs` rise linearly; by 50k steps you’re ~10 epochs over ~61 episodes.
+
+### Suggestions (actionable)
+
+1. **Keep AMP + A100.** You’re getting ~7× faster steps; perfect.
+2. **Checkpoint cadence:** every **5k** is a good balance (you already set that).
+3. **If plateaus appear after ~30–40k:**
+   - Try a short **fine-tune**: drop LR ×0.5–0.3 for the last 10–20k steps.
+   - Or freeze the vision backbone for a few k steps, then unfreeze (sometimes sharpens the head).
+4. **KLD weight** (optional tweak): with a single, simple task you can keep `kl_weight=10`. If you want the latent to carry more info (less collapse), try **5 → 2** and compare `kld_loss`/performance.
+5. **Batch size:** on A100 you can likely go **batch 16** (maybe 32) if memory allows; watch `grad_norm` for stability.
+6. **Validation signal:** add an **eval/rollout success metric** (or hold-out episodes). Training curves look good, but only eval tells you when to stop.
+
+### TL;DR
+
+Loss down, grads stable, data not the bottleneck, A100 is paying off. I’d continue to ~50–60k steps (or until eval stops improving), keep 5k saves, and consider a small LR drop near the end. If you want, share a quick eval success plot and I’ll tell you where I’d stop exactly.
+
+
+
+## Evaluate policy
 
 ```bash
-(lerobot) $ wandb --version
-wandb, version 0.21.4
-```
-
-Created account in wandb.ai with Google OAuth SPAM, username manoloheredia, organization Duckietown API key in secrets
-
-```bash
-(lerobot) $ wandb login
-wandb: WARNING Using legacy-service, which is deprecated. If this is unintentional, you can fix it by ensuring you do not call `wandb.require('legacy-service')` and do not set the WANDB_X_REQUIRE_LEGACY_SERVICE environment variable.
-wandb: Logging into wandb.ai. (Learn how to deploy a W&B server locally: https://wandb.me/wandb-server)
-wandb: You can find your API key in your browser here: https://wandb.ai/authorize?ref=models
-wandb: Paste an API key from your profile and hit enter, or press ctrl+c to quit: 
-wandb: No netrc file found, creating one.
-wandb: Appending key for api.wandb.ai to your netrc file: /home/mhered/.netrc
-wandb: Currently logged in as: manoloheredia (manoloheredia-duckietown) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
-(lerobot) mhered@Vader:~/lerobot$ 
-
-```
-
-## Evaluate
-
-```bash
-(lerobot) $ python lerobot/scripts/control_robot.py \
-  --robot.type=so100 \
-  --control.type=record \
-  --control.fps=30 \
-  --control.single_task="Grasp a duckie" \
-  --control.repo_id=${HF_USER}/eval_act_so100_test \
-  --control.tags='["tutorial"]' \
-  --control.warmup_time_s=5 \
-  --control.episode_time_s=30 \
-  --control.reset_time_s=30 \
-  --control.num_episodes=10 \
-  --control.push_to_hub=true \
-  --control.policy.path=outputs/lerobot_final
+(lerobot) $ 
 ```
 
 ---
