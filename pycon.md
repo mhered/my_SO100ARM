@@ -10,21 +10,21 @@ Todo:
 
 - [ ] add pics and videos
 
-## Note
+## Notes
 
-Had to renumber the motors from 6-1 to 1-6 using the FE-URT-1 board under windows checkout instructions [here](./Configuring_the_Servos.md). Note running the servos of the leader will uncalibrate it (goes into infinite loop becasue gear is removed and encoder sees difference)
+Since I originally used the setup there had been breaking changes in the repo so I had to renumber the motors from 6-1 to 1-6 using the FE-URT-1 board under windows - check instructions [here](./Configuring_the_Servos.md).  While calibrating the leader, I accidentally run the servos and this messed the calibration of the arm ( the control goes on an infinite loop the encoder sees a difference with the target, the control tries to move the servo but the gears are removed and it cannot close the difference)
 
-had to delete and reinstall lerobot
+I had merge conflicts between the modifications I added during pycamp and the evolution of the repo, eventually decided to delete and reinstall lerobot
 
 ## Quick Start
 
 - switch on power supply
-- connect usb-c of follower arm
-- connect usb-c of leader arm
+- connect the usb-c of follower arm FIRST and THEN connect the usb-c of leader arm (to ubuntu assigns `/dev/ttyACM0` to the follwer and `/dev/ttyACM1` to the leader)
 - teleoperate without camera:
 
 ```bash
-lerobot-teleoperate \
+$ conda activate lerobot
+(lerobot)$ lerobot-teleoperate \
     --robot.type=so100_follower \
     --robot.port=/dev/ttyACM0 \
     --robot.id=my_follower_arm \
@@ -32,8 +32,6 @@ lerobot-teleoperate \
     --teleop.port=/dev/ttyACM1 \
     --teleop.id=my_leader_arm
 ```
-
-
 
 ## First Setup
 
@@ -186,8 +184,6 @@ This command will automatically:
 1. Identify any missing calibrations and initiate the calibration procedure.
 2. Connect the robot and teleop device and start teleoperation.
 
-
-
 ### Setup cameras
 
 Source: https://huggingface.co/docs/lerobot/en/cameras
@@ -252,7 +248,7 @@ Identify cameras by looking at the images stored in the `outputs/captured_images
 
 In this case `/dev/video4` is `head_cam` and `/dev/video6` is `top_cam`
 
-### Teleop with cameras (& visualize)
+### Teleop (& visualize) with cameras 
 
 ```bash
 (lerobot)$ lerobot-teleoperate \
