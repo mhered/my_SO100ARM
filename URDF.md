@@ -192,7 +192,7 @@ joint_names:
 - wrist_to_fixed_jaw_joint
 - fixed_to_moving_jaw_joint
 points:
-- positions: [0.0, 1.75, -1.55, -1.2, 0, -0.2]
+- positions: [0.0, 1.75, -1.55, -1.2, -1.5708, -0.2]
   time_from_start:
     sec: 1
     nanosec: 0"
@@ -322,7 +322,7 @@ joint_names:
 - wrist_to_fixed_jaw_joint
 - fixed_to_moving_jaw_joint
 points:
-- positions:  [-0.5, -0.7, -0.5, 1.2, -1.6, -0.2]
+- positions:  [-0.5, -0.7, -0.5, 1.2, -1.5708, -0.2]
   time_from_start:
     sec: 1
     nanosec: 0"
@@ -400,7 +400,7 @@ joint_names:
 - wrist_to_fixed_jaw_joint
 - fixed_to_moving_jaw_joint
 points:
-- positions: [0.0, 1.75, -1.55, -1.2, 0, -0.2]
+- positions: [0.0, 1.75, -1.55, -1.2, -1.5708, -0.2]
   time_from_start:
     sec: 1
     nanosec: 0"
