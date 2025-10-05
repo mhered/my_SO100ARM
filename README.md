@@ -6,6 +6,7 @@
 * Crude python script to control the arm: [./scripts/README.md](./scripts/README.md)
 * [URDF](./URDF.md) - how to model the SO100ARM: creating `my_arm_description` ROS2 package
 * [Python, un robot y un patito de goma](./pycamp.md) - my notes on my first attempt at setting up, teleoperating and training the arm to pick up a rubber duckie (project during pycamp2025 in April'25)
+* [LeRobot Hackaton](lerobot_hackaton.md) - my notes on the 1st worldwide LeRobot Hackaton on 14-15 June'25
 * **[Python, un robot y un patito de goma](./pycon.md) - my notes on my second attempt at setting up, teleoperating and training the arm to pick up a rubber duckie (pyconEs2025 talk in October'25)**
 * [Creating custom worlds](./src/my_worlds/README.md) - my exploration on creating custom models and worlds. I am planning to simulate the exercise of picking up the rubber duckie, and also the eco-disaster challenge from piwars2024.
 * [Teleoperation with phosphobot](./Teleop.md)
