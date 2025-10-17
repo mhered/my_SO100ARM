@@ -228,6 +228,9 @@
 
     </joint>
 
+    
+    <!--NOTE THIS DOES NOT WORK WITH URDF VISUALIZER-->
+
     <!-- Include cameras -->
     <xacro:include filename="$(find my_arm_description)/urdf/my_camera.xacro" />
 

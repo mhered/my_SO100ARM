@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="my_arm">
+
+
+    <material name="robot_color">
+        <color rgba="0.9 0.9 0.9 0.9" />
+    </material>
+
+
+
+    <link name="world" />
+
+    <link name="base_link">
+        <visual>
+            <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Base.STL" />
+            </geometry>
+            <material name="robot_color"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Base.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                iyy="0.001" iyz="0.0"
+                izz="0.001" />
+        </inertial>
+    </link>
+
+    <joint name="world_to_base_joint" type="fixed">
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <parent link="world" />
+        <child link="base_link" />
+    </joint>
+
+    <link name="shoulder_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Rotation_Pitch.STL" />
+            </geometry>
+            <material name="robot_color"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Rotation_Pitch.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                iyy="0.001" iyz="0.0"
+                izz="0.001" />
+        </inertial>
+    </link>
+
+    <joint name="base_to_shoulder_joint" type="revolute">
+        <origin xyz="0 -0.0452 0.0165" rpy="0 0 0" />
+        <parent link="base_link" />
+        <child link="shoulder_link" />
+        <axis xyz="0 0 1" />
+        <limit upper="${2*pi/3}" lower="-${2*pi/3}" effort="1.0" velocity="1.0" />
+    </joint>
+
+    <link name="upper_arm_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 ${pi/2} 0" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Upper_Arm.STL" />
+            </geometry>
+            <material name="robot_color"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 ${pi/2} 0" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Upper_Arm.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                iyy="0.001" iyz="0.0"
+                izz="0.001" />
+        </inertial>
+    </link>
+
+    <joint name="shoulder_to_upper_arm_joint" type="revolute">
+        <origin xyz="0 -0.0306 0.10 " rpy="${pi/2} 0 -${pi/2}" />
+        <parent link="shoulder_link" />
+        <child link="upper_arm_link" />
+        <axis xyz="0 0 1" />
+        <limit upper="${2*pi/3}" lower="-${2*pi/3}" effort="1.0" velocity="1.0" />
+    </joint>
+
+    <link name="lower_arm_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 ${pi/2} 0" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Lower_Arm.STL" />
+            </geometry>
+            <material name="robot_color"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 ${pi/2} 0" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Lower_Arm.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                iyy="0.001" iyz="0.0"
+                izz="0.001" />
+        </inertial>
+    </link>
+
+    <joint name="upper_arm_to_lower_arm_joint" type="revolute">
+        <origin xyz="0.0276 0.1125 0.0" rpy="0 0 0" />
+        <parent link="upper_arm_link" />
+        <child link="lower_arm_link" />
+        <axis xyz="0 0 1" />
+        <limit upper="${pi/2}" lower="-${pi/2}" effort="1.0" velocity="1.0" />
+    </joint>
+
+    <link name="wrist_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="-${pi/2} ${pi/2} 0" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Wrist_Pitch_Roll.STL" />
+            </geometry>
+            <material name="robot_color"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="-${pi/2} ${pi/2} 0" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Wrist_Pitch_Roll.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                iyy="0.001" iyz="0.0"
+                izz="0.001" />
+        </inertial>
+    </link>
+
+    <joint name="lower_arm_to_wrist_joint" type="revolute">
+        <origin xyz="0.135 0.0052 0.0" rpy="0 0 0" />
+        <parent link="lower_arm_link" />
+        <child link="wrist_link" />
+        <axis xyz="0 0 1" />
+        <limit upper="${2*pi/3}" lower="-${2*pi/3}" effort="1.0" velocity="1.0" />
+    </joint>
+
+    <link name="fixed_jaw_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="-${pi/2} 0 -${pi/2}" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Fixed_Jaw_w_cam_mount_v3.STL" />
+            </geometry>
+            <material name="robot_color"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="-${pi/2} 0 -${pi/2}" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Fixed_Jaw_w_cam_mount_v3.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                iyy="0.001" iyz="0.0"
+                izz="0.001" />
+        </inertial>
+    </link>
+
+    <joint name="wrist_to_fixed_jaw_joint" type="revolute">
+        <origin xyz="0.06 0.0 0.0" rpy="0 ${pi/2} 0" />
+        <parent link="wrist_link" />
+        <child link="fixed_jaw_link" />
+        <axis xyz="0 0 1" />
+        <limit upper="${7*pi/6}" lower="-${7*pi/6}" effort="1.0" velocity="1.0" />
+
+    </joint>
+
+    <link name="moving_jaw_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Moving_Jaw.STL" />
+            </geometry>
+            <material name="robot_color"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://my_arm_description/meshes/Moving_Jaw.STL" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                iyy="0.001" iyz="0.0"
+                izz="0.001" />
+        </inertial>
+    </link>
+
+    <joint name="fixed_to_moving_jaw_joint" type="revolute">
+        <origin xyz="0.0 0.02 0.0245" rpy="${pi/2} ${pi} -${pi/2}" />
+        <parent link="fixed_jaw_link" />
+        <child link="moving_jaw_link" />
+        <axis xyz="0 0 1" />
+        <limit upper="${2*pi/3}" lower="-${pi/6}" effort="1.0" velocity="1.0" />
+
+    </joint>
+
+    
+    <!--REMOVED DUE TO INCOMPATIBILITY WITH URDF VISUALIZER -->
+    
+    <!--
+
+    <!- Include cameras ->
+    <xacro:include filename="$(find my_arm_description)/urdf/my_camera.xacro" />
+
+    <!- Wrist mounted camera ->
+    <xacro:camera world_link_name="fixed_jaw_link" camera_name="wrist_camera">
+        <origin xyz="-0.082 0.002 0.044" rpy="0 ${-pi/2+0.95} 0 " />
+    </xacro:camera>
+
+    <!- Fixed tripod camera ->
+    <xacro:camera world_link_name="world" camera_name="tripod_camera">
+        <origin xyz="-0.7 0.0 0.5" rpy="0 ${pi/6} -${pi/6}" />
+    </xacro:camera>
+    
+    <!- Import and add realsense ->
+    <xacro:include filename="$(find my_sensors)/realsense_d435/realsense.urdf.xacro" />
+    <xacro:realsense world_link_name="world">
+        <origin xyz="0 -4.00 2.1" rpy="0 ${pi/4} ${pi/2}" />
+    </xacro:realsense>
+
+    -->
+
+    <!-- ros2_control -->
+
+    <xacro:macro name="ros2_position_controller" params="joint_name">
+        <joint name="${joint_name}">
+            <command_interface name="position" />
+            <state_interface name="position">
+                <param name="initial_value">0.0</param>
+            </state_interface>
+            <state_interface name="velocity" />
+        </joint>
+    </xacro:macro>
+
+    <ros2_control name="my_arm" type="system">
+        <hardware>
+            <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+        </hardware>
+
+        <xacro:ros2_position_controller joint_name="base_to_shoulder_joint" />
+        <xacro:ros2_position_controller joint_name="shoulder_to_upper_arm_joint" />
+        <xacro:ros2_position_controller joint_name="upper_arm_to_lower_arm_joint" />
+        <xacro:ros2_position_controller joint_name="lower_arm_to_wrist_joint" />
+        <xacro:ros2_position_controller joint_name="wrist_to_fixed_jaw_joint" />
+        <xacro:ros2_position_controller joint_name="fixed_to_moving_jaw_joint" />
+
+    </ros2_control>
+
+    <gazebo>
+        <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+            <parameters>$(find my_arm_description)/config/ros2_controllers.yaml</parameters>
+        </plugin>
+
+        <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+            <render_engine>ogre2</render_engine>
+        </plugin>
+
+    </gazebo>
+
+</robot>
